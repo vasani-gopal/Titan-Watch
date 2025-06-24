@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Detail</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2196f3;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #2196f3;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .product-detail-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .product-image {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); */
+    }
+
+    .product-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .product-details {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+
+    .product-details h2 {
+      font-size: 2.2rem;
+      color: #1a1a1a;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .price {
+      color: #e91e63;
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    /* Color Options Styles */
+    .color-selection {
+      margin: 1.5rem 0;
+    }
+
+    .color-selection h4 {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .color-option.active {
+      border-color: #2196f3;
+      transform: scale(1.1);
+      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+    }
+
+    .color-option::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .color-option.active::after {
+      opacity: 1;
+    }
+
+    .color-black { background-color: #2c2c2c; }
+    .color-silver { background: linear-gradient(45deg, #c0c0c0, #e8e8e8); }
+    .color-rose-gold { background: linear-gradient(45deg, #e8b4a0, #d4a574); }
+    .color-blue { background: linear-gradient(45deg, #1e3a8a, #3b82f6); }
+
+    .selected-color-name {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+    }
+
+    .product-info p {
+      font-size: 1.1rem;
+      color: #444;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .product-info p strong {
+      color: #1a1a1a;
+      min-width: 100px;
+    }
+
+    .actions {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .actions button {
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .add-to-cart {
+      background-color: #2196f3;
+      color: white;
+      flex: 1;
+    }
+
+    .add-to-cart:hover:not(:disabled) {
+      background-color: #0b7dda;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    }
+
+    .add-to-cart:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .buy-now {
+      background-color: #4caf50;
+      color: white;
+      flex: 1;
+    }
+
+    .buy-now:hover {
+      background-color: #388e3c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+
+    .view-cart {
+      background-color: #ff9800;
+      color: white;
+      display: none;
+    }
+
+    .view-cart:hover {
+      background-color: #e68a00;
+      transform: translateY(-2px);
+    }
+
+    .back-btn {
+      margin: 2rem auto;
+      padding: 14px 28px;
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-btn:hover {
+      background: #333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Cart notification */
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4caf50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateX(150%);
+      transition: transform 0.5s ease;
+      z-index: 1000;
+    }
+
+    .cart-notification.show {
+      transform: translateX(0);
+    }
+
+    /* Cart icon in navbar */
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+    }
+
+    .cart-icon:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #e91e63;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .wishlist-btn {
+      background-color: #fff;
+      border: 2px solid #e91e63;
+      color: #e91e63;
+      font-size: 1.1rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: 100%;
+    }
+
+    .wishlist-btn:hover {
+      background-color: #e91e63;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+    }
+
+    /* Login Popup Styles */
+    .login-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .login-title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .login-form-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .login-form-box input {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .login-form-box button {
+      background-color: #2196f3;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .login-form-box button:hover {
+      background-color: #0b7dda;
+    }
+
+    .register-text {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .register-text a {
+      color: #2196f3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* User Profile Popup */
+    .user-profile-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-icon {
+      font-size: 2rem;
+      color: #2196f3;
+    }
+
+    .profile-details {
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-item {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .profile-item label {
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    .logout-btn {
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+
+    .logout-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    .form-message {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .form-message.error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ef9a9a;
+    }
+
+    .form-message.success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #a5d6a7;
+    }
+
+    .account-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .account-btn:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .account-btn.logged-in span {
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .product-detail-container {
+        padding: 1.5rem;
+      }
+
+      .product-image {
+        min-width: 100%;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+
+      .color-options {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Watch Store</a>
+      <div class="nav-links">
+        <a href="../men/men.html">Men</a>
+        <a href="../women/women.html">Women</a>
+        <a href="../smart-watch/smart.html">Smart Watches</a>
+        <a href="../premium watch/primium.html">Premium</a>
+        <a href="../internation brand/international.html">International</a>
+        <div class="account-btn" id="accountBtn">
+          <i class="fa-regular fa-user"></i>
+          <span>Account</span>
+        </div>
+        <div class="cart-icon" onclick="goToCart()">
+          <a href="../cart.html">🛒 <span class="cart-count" id="cartCount">0</span></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="product-detail-container" id="productDetail"></div>
+    <button class="back-btn" onclick="window.history.back()">⬅ Go Back</button>
+  </div>
+
+  <div class="cart-notification" id="cartNotification">Product added to cart!</div>
+
+  <!-- Login Popup -->
+  <div class="login-popup" id="loginPopup">
+    <div class="login-container">
+      <span class="close-btn" id="closeLogin">&times;</span>
+
+      <!-- Login Form -->
+      <div id="loginForm">
+        <h2 class="login-title">Login to Your Account</h2>
+        <form class="login-form-box">
+          <input type="text" placeholder="Email or Mobile Number" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+          <p class="register-text">
+            Don't have an account? <a href="#" id="showRegister">Register</a>
+          </p>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div id="registerForm" style="display: none;">
+        <h2 class="login-title">Create an Account</h2>
+        <form class="login-form-box">
+          <input type="text" placeholder="Full Name" required />
+          <input type="email" placeholder="Email Address" required />
+          <input type="text" placeholder="Mobile Number" required />
+          <input type="password" placeholder="Create Password" required />
+          <input type="password" placeholder="Confirm Password" required />
+          <button type="submit">Register</button>
+          <p class="register-text">
+            Already have an account? <a href="#" id="showLogin">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Profile Popup -->
+  <div class="user-profile-popup" id="userProfilePopup">
+    <div class="profile-container">
+      <span class="close-btn" id="closeProfile">&times;</span>
+      <div class="profile-header">
+        <i class="fa-regular fa-user profile-icon"></i>
+        <h2>User Profile</h2>
+      </div>
+      <div class="profile-details">
+        <div class="profile-item">
+          <label>Full Name:</label>
+          <span id="profileName">-</span>
+        </div>
+        <div class="profile-item">
+          <label>Email:</label>
+          <span id="profileEmail">-</span>
+        </div>
+        <div class="profile-item">
+          <label>Mobile:</label>
+          <span id="profileMobile">-</span>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Get current user from auth system
+      const currentUser = window.auth.getCurrentUser();
+      const accountBtn = document.getElementById("accountBtn");
+      
+      if (currentUser) {
+        // User is logged in
+        accountBtn.classList.add('logged-in');
+        accountBtn.innerHTML = `
+          <i class="fa-regular fa-user"></i>
+          <span>${currentUser.fullName.split(' ')[0]}</span>
+        `;
+      } else {
+        // User is logged out
+        accountBtn.classList.remove('logged-in');
+        accountBtn.innerHTML = `
+          <i class="fa-regular fa-user"></i>
+          <span>Account</span>
+        `;
+      }
+
+      const product = JSON.parse(localStorage.getItem("selectedProduct"));
+      const container = document.getElementById("productDetail");
+      const cartNotification = document.getElementById("cartNotification");
+      const cartCountElement = document.getElementById("cartCount");
+
+      // Color options data
+      const colorOptions = [
+        { name: 'Classic Black', class: 'color-black', value: 'black' },
+        { name: 'Silver Steel', class: 'color-silver', value: 'silver' },
+        { name: 'Rose Gold', class: 'color-rose-gold', value: 'rose-gold' },
+        { name: 'Ocean Blue', class: 'color-blue', value: 'blue' }
+      ];
+
+      let selectedColor = colorOptions[0]; // Default to first color
+
+      // Login Popup
+      const loginPopup = document.getElementById("loginPopup");
+      const closeLoginBtn = document.getElementById("closeLogin");
+      const showRegisterBtn = document.getElementById("showRegister");
+      const showLoginBtn = document.getElementById("showLogin");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+
+      // Make sure these elements exist before trying to use them
+      const loginFormElement = loginForm ? loginForm.querySelector("form") : null;
+      const registerFormElement = registerForm ? registerForm.querySelector("form") : null;
+
+      // User Profile Elements
+      const userProfilePopup = document.getElementById("userProfilePopup");
+      const closeProfileBtn = document.getElementById("closeProfile");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const profileName = document.getElementById("profileName");
+      const profileEmail = document.getElementById("profileEmail");
+      const profileMobile = document.getElementById("profileMobile");
+
+      // Get cart from localStorage or create empty array
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      let pendingAction = null; // To store the action that was attempted while logged out
+
+      // Check if user is already logged in
+      const checkUserLoginStatus = () => {
+        const currentUser = window.auth.getCurrentUser();
+        if (currentUser) {
+          updateLoggedInState(currentUser);
+        } else {
+          updateLoggedOutState();
+        }
+      };
+
+      // Update cart count in header
+      function updateCartCount() {
+        if (cartCountElement) {
+          const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+          cartCountElement.textContent = totalItems;
+        }
+      }
+
+      // Function to update UI for logged in state
+      const updateLoggedInState = (user) => {
+        window.auth.updateLoggedInState(user);
+      };
+
+      // Function to update UI for logged out state
+      const updateLoggedOutState = () => {
+        window.auth.updateLoggedOutState();
+      };
+
+      // Function to show user profile
+      const showUserProfile = () => {
+        const currentUser = window.auth.getCurrentUser();
+        if (currentUser && userProfilePopup && profileName && profileEmail && profileMobile) {
+          profileName.textContent = currentUser.fullName;
+          profileEmail.textContent = currentUser.email;
+          profileMobile.textContent = currentUser.mobile;
+          userProfilePopup.style.display = "flex";
+        }
+      };
+
+      // Form validation messages
+      const showMessage = (message, isError = true) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `form-message ${isError ? 'error' : 'success'}`;
+        messageDiv.textContent = message;
+
+        // Remove any existing messages
+        const existingMessages = document.querySelectorAll('.form-message');
+        existingMessages.forEach(msg => msg.remove());
+
+        // Add new message
+        const loginContainer = document.querySelector('.login-container');
+        if (loginContainer) {
+          loginContainer.prepend(messageDiv);
+        } else {
+          // If login container not found, add to the login popup directly
+          if (loginPopup) loginPopup.prepend(messageDiv);
+        }
+
+        // Auto remove after 3 seconds
+        setTimeout(() => messageDiv.remove(), 3000);
+      };
+
+      // Check login before action
+      const checkLoginBeforeAction = (action) => {
+        const currentUser = window.auth.getCurrentUser();
+        if (!currentUser) {
+          pendingAction = action;
+          if (loginPopup) {
+            loginPopup.style.display = "flex";
+
+            // Make sure the login form is visible when opening the popup
+            if (loginForm && registerForm) {
+              loginForm.style.display = "block";
+              registerForm.style.display = "none";
+            }
+          }
+          return false;
+        }
+        return true;
+      };
+
+      // Execute pending action if exists
+      const executePendingAction = () => {
+        if (pendingAction === 'addToCart') {
+          addToCart();
+        } else if (pendingAction === 'buyNow') {
+          buyNow();
+        } else if (pendingAction === 'wishlist') {
+          toggleWishlist();
+        }
+        pendingAction = null;
+      };
+
+      // Color selection function
+      const selectColor = (colorOption) => {
+        selectedColor = colorOption;
+        
+        // Update active state
+        document.querySelectorAll('.color-option').forEach(option => {
+          option.classList.remove('active');
+        });
+        document.querySelector(`.color-option.${colorOption.class}`).classList.add('active');
+        
+        // Update selected color name display
+        const selectedColorName = document.getElementById('selectedColorName');
+        if (selectedColorName) {
+          selectedColorName.textContent = `Selected: ${colorOption.name}`;
+        }
+      };
+
+      // Add to cart functionality
+      function addToCart() {
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        if (!addToCartBtn) return;
+
+        const existingItemIndex = cart.findIndex(item => 
+          item.id === product.id && item.selectedColor === selectedColor.value
+        );
+        
+        if (existingItemIndex !== -1) {
+          showMessage("This item with selected color is already in your cart!", true);
+          return;
+        }
+
+        cart.push({
+          ...product,
+          selectedColor: selectedColor.value,
+          selectedColorName: selectedColor.name,
+          quantity: 1
+        });
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        showNotification();
+        updateCartCount();
+        
+        // Disable the Add to Cart button
+        addToCartBtn.disabled = true;
+        addToCartBtn.textContent = "Added to Cart";
+        addToCartBtn.style.backgroundColor = "#ccc";
+      }
+
+      // Buy now functionality
+      function buyNow() {
+        const existingItemIndex = cart.findIndex(item => 
+          item.id === product.id && item.selectedColor === selectedColor.value
+        );
+        
+        if (existingItemIndex !== -1) {
+          cart[existingItemIndex].quantity += 1;
+        } else {
+          cart.push({
+            ...product,
+            selectedColor: selectedColor.value,
+            selectedColorName: selectedColor.name,
+            quantity: 1
+          });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        window.location.href = '../cart.html';
+      }
+
+      // Toggle wishlist functionality
+      function toggleWishlist() {
+        const wishlistBtn = document.getElementById("wishlistBtn");
+        if (!wishlistBtn) return;
+
+        const index = wishlist.findIndex(item => item.id === product.id);
+
+        if (index === -1) {
+          wishlist.push({
+            ...product,
+            selectedColor: selectedColor.value,
+            selectedColorName: selectedColor.name
+          });
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          alert("✅ Added to Wishlist!");
+          wishlistBtn.innerHTML = "❤️ Wishlisted";
+          wishlistBtn.style.backgroundColor = "#e91e63";
+          wishlistBtn.style.color = "#fff";
+        } else {
+          wishlist.splice(index, 1);
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          alert("❌ Removed from Wishlist!");
+          wishlistBtn.innerHTML = "🤍 Wishlist";
+          wishlistBtn.style.backgroundColor = "#fff";
+          wishlistBtn.style.color = "#e91e63";
+        }
+      }
+
+      // Call on page load
+      checkUserLoginStatus();
+      updateCartCount();
+
+      // Add event listeners if elements exist
+      if (loginFormElement) {
+        loginFormElement.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const emailInput = loginFormElement.querySelector('input[type="text"]');
+          const passwordInput = loginFormElement.querySelector('input[type="password"]');
+
+          if (!emailInput || !passwordInput) {
+            showMessage("Login form is missing required fields");
+            return;
+          }
+
+          const email = emailInput.value;
+          const password = passwordInput.value;
+
+          // Basic validation
+          if (!email || !password) {
+            showMessage("Please fill in all fields");
+            return;
+          }
+
+          // Simulate successful login with user data
+          const user = {
+            fullName: "John Doe", // In real app, this would come from backend
+            email: email,
+            mobile: "1234567890" // In real app, this would come from backend
+          };
+
+          updateLoggedInState(user);
+          showMessage("Login successful!", false);
+          setTimeout(() => {
+            if (loginPopup) loginPopup.style.display = "none";
+            loginFormElement.reset();
+            executePendingAction(); // Execute any pending action after successful login
+          }, 1500);
+        });
+      }
+
+      if (registerFormElement) {
+        registerFormElement.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const fullNameInput = registerFormElement.querySelector('input[placeholder="Full Name"]');
+          const emailInput = registerFormElement.querySelector('input[placeholder="Email Address"]');
+          const mobileInput = registerFormElement.querySelector('input[placeholder="Mobile Number"]');
+          const passwordInput = registerFormElement.querySelector('input[placeholder="Create Password"]');
+          const confirmPasswordInput = registerFormElement.querySelector('input[placeholder="Confirm Password"]');
+
+          if (!fullNameInput || !emailInput || !mobileInput || !passwordInput || !confirmPasswordInput) {
+            showMessage("Registration form is missing required fields");
+            return;
+          }
+
+          const fullName = fullNameInput.value;
+          const email = emailInput.value;
+          const mobile = mobileInput.value;
+          const password = passwordInput.value;
+          const confirmPassword = confirmPasswordInput.value;
+
+          // Validation
+          if (!fullName || !email || !mobile || !password || !confirmPassword) {
+            showMessage("Please fill in all fields");
+            return;
+          }
+
+          if (password !== confirmPassword) {
+            showMessage("Passwords do not match");
+            return;
+          }
+
+          if (password.length < 6) {
+            showMessage("Password must be at least 6 characters long");
+            return;
+          }
+
+          // Create user object with the provided details
+          const user = {
+            fullName: fullName,
+            email: email,
+            mobile: mobile
+          };
+
+          // Update UI with user data
+          updateLoggedInState(user);
+          showMessage("Registration successful!", false);
+
+          setTimeout(() => {
+            if (loginPopup) loginPopup.style.display = "none";
+            if (registerForm && loginForm) {
+              registerForm.style.display = "none";
+              loginForm.style.display = "block";
+            }
+            registerFormElement.reset();
+            executePendingAction(); // Execute any pending action after successful registration
+          }, 1500);
+        });
+      }
+
+      // Product display
+      if (container) {
+        if (product) {
+          // Add ID if it doesn't exist (for cart management)
+          if (!product.id) {
+            product.id = Date.now().toString();
+            localStorage.setItem("selectedProduct", JSON.stringify(product));
+          }
+
+          container.innerHTML = `
+        <div class="product-image">
+          <img src="${product.image}" alt="${product.name}">
+        </div>
+        <div class="product-details">
+          <h2>${product.name}</h2>
+          <div class="price">${product.price}</div>
+          
+          <!-- Color Selection -->
+          <div class="color-selection">
+            <h4>Choose Color:</h4>
+            <div class="color-options">
+              ${colorOptions.map(color => `
+                <div class="color-option ${color.class} ${color === selectedColor ? 'active' : ''}" 
+                     data-color-value="${color.value}" 
+                     data-color-name="${color.name}"
+                     title="${color.name}">
+                </div>
+              `).join('')}
+            </div>
+            <div class="selected-color-name" id="selectedColorName">Selected: ${selectedColor.name}</div>
+          </div>
+
+          <div class="product-info">
+            <p><strong>Brand:</strong> ${product.brand || 'Generic'}</p>
+            <p><strong>Category:</strong> ${product.category || 'Watch'}</p>
+            <p><strong>Rating:</strong> ⭐ ${product.rating || '4.5'}</p>
+            <p><strong>Availability:</strong> In Stock</p>
+          </div>
+          <div class="actions">
+            <button class="add-to-cart" id="addToCartBtn">Add to Cart</button>
+            <button class="buy-now" id="buyNowBtn">Buy Now</button>
+            <button class="wishlist-btn" id="wishlistBtn">🤍 Add to Wishlist</button>
+          </div>
+        </div>
+      `;
+
+          // Add color selection event listeners
+          const colorOptionElements = document.querySelectorAll('.color-option');
+          colorOptionElements.forEach(option => {
+            option.addEventListener('click', () => {
+              const colorValue = option.dataset.colorValue;
+              const colorName = option.dataset.colorName;
+              const colorClass = option.classList[1]; // Get the color class
+              
+              const colorOption = colorOptions.find(c => c.value === colorValue);
+              if (colorOption) {
+                selectColor(colorOption);
+                
+                // Re-enable Add to Cart button when color changes
+                const addToCartBtn = document.getElementById("addToCartBtn");
+                if (addToCartBtn && addToCartBtn.disabled) {
+                  addToCartBtn.disabled = false;
+                  addToCartBtn.textContent = "Add to Cart";
+                  addToCartBtn.style.backgroundColor = "#2196f3";
+                }
+              }
+            });
+          });
+
+          // Update wishlist button UI
+          const wishlistBtn = document.getElementById("wishlistBtn");
+          if (wishlistBtn) {
+            const isWishlisted = wishlist.some(item => item.id === product.id);
+            if (isWishlisted) {
+              wishlistBtn.innerHTML = "❤️ Wishlisted";
+              wishlistBtn.style.backgroundColor = "#e91e63";
+              wishlistBtn.style.color = "#fff";
+            }
+
+            // Wishlist button with login check
+            wishlistBtn.addEventListener("click", () => {
+              if (checkLoginBeforeAction('wishlist')) {
+                toggleWishlist();
+              }
+            });
+          }
+
+          // Add to Cart click handler with login check
+          const addToCartBtn = document.getElementById("addToCartBtn");
+          if (addToCartBtn) {
+            addToCartBtn.addEventListener("click", () => {
+              if (checkLoginBeforeAction('addToCart')) {
+                addToCart();
+              }
+            });
+          }
+
+          // Buy Now click handler with login check
+          const buyNowBtn = document.getElementById("buyNowBtn");
+          if (buyNowBtn) {
+            buyNowBtn.addEventListener("click", () => {
+              if (checkLoginBeforeAction('buyNow')) {
+                buyNow();
+              }
+            });
+          }
+        } else {
+          container.innerHTML = "<p>Product not found. Please go back and select a product.</p>";
+        }
+      }
+
+      function showNotification() {
+        if (cartNotification) {
+          cartNotification.classList.add("show");
+          setTimeout(() => {
+            cartNotification.classList.remove("show");
+          }, 3000);
+        }
+      }
+
+      // Account button click handler
+      if (accountBtn) {
+        accountBtn.addEventListener("click", () => {
+          if (currentUser) {
+            showUserProfile();
+          } else if (loginPopup) {
+            loginPopup.style.display = "flex";
+
+            // Make sure login form is visible when opening popup
+            if (loginForm && registerForm) {
+              loginForm.style.display = "block";
+              registerForm.style.display = "none";
+            }
+          }
+        });
+      }
+
+      // Close profile popup
+      if (closeProfileBtn) {
+        closeProfileBtn.addEventListener("click", () => {
+          if (userProfilePopup) {
+            userProfilePopup.style.display = "none";
+          }
+        });
+      }
+
+      // Logout handler
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          window.auth.handleLogout();
+          if (userProfilePopup) {
+            userProfilePopup.style.display = "none";
+          }
+        });
+      }
+
+      // Close login popup
+      if (closeLoginBtn) {
+        closeLoginBtn.addEventListener("click", () => {
+          if (loginPopup) {
+            loginPopup.style.display = "none";
+            // Reset forms when closing
+            if (loginFormElement) loginFormElement.reset();
+            if (registerFormElement) registerFormElement.reset();
+          }
+        });
+      }
+
+      // Show register form
+      if (showRegisterBtn) {
+        showRegisterBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (loginForm && registerForm) {
+            loginForm.style.display = "none";
+            registerForm.style.display = "block";
+          }
+        });
+      }
+
+      // Show login form
+      if (showLoginBtn) {
+        showLoginBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (registerForm && loginForm) {
+            registerForm.style.display = "none";
+            loginForm.style.display = "block";
+          }
+        });
+      }
+
+      // Close popups when clicking outside
+      window.addEventListener("click", (e) => {
+        if (loginPopup && e.target === loginPopup) {
+          loginPopup.style.display = "none";
+          // Reset forms when closing
+          if (loginFormElement) loginFormElement.reset();
+          if (registerFormElement) registerFormElement.reset();
+        }
+        if (userProfilePopup && e.target === userProfilePopup) {
+          userProfilePopup.style.display = "none";
+        }
+      });
+    });
+  </script>
+  <script src="../auth.js" defer></script>
+</body>
+
+</html>

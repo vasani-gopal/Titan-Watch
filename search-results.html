@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Titan</title>
+    <link rel="icon" type="image/png" href="https://zerocreativity0.wordpress.com/wp-content/uploads/2016/02/titan-logo-sudarshan-dheer.jpg?w=736" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        .search-results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .search-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .search-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .search-header p {
+            color: #666;
+        }
+
+        .filters {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filters > div {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filters label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .filters select,
+        .filters input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product p {
+            padding: 10px;
+            margin: 0;
+        }
+
+        .product .price {
+            color: #c00;
+            font-weight: bold;
+        }
+
+        .product-details {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .back-button {
+            background: #c00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #a00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-header">
+            <div class="left">
+                <a href="index.html">
+                    <img class="logo" src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwb6d5816b/images/homepage/titan-logo.svg" alt="Titan Logo" />
+                </a>
+            </div>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for watches..."/>
+                    <button type="submit" class="search-button">
+                        <i class="fa-solid fa-search"></i>
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <div class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="right">
+                <button class="account-btn">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Account</span>
+                </button>
+
+                <a href="wishlish.html" class="wishlist-link">
+                    <i class="fa-regular fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+
+                <a href="cart.html" class="cart-link">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Cart</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="search-results-container">
+            <div class="search-header">
+                <h1>Search Results</h1>
+                <p id="searchSummary"></p>
+            </div>
+
+            <div class="filters">
+                <div>
+                    <label for="categoryFilter">Category:</label>
+                    <select id="categoryFilter">
+                        <option value="All">All Categories</option>
+                        <option value="Men Watch">Men's Watches</option>
+                        <option value="Women Watch">Women's Watches</option>
+                        <option value="Smart Watch">Smart Watches</option>
+                        <option value="Premium Watch">Premium Watches</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="brandFilter">Brand:</label>
+                    <select id="brandFilter">
+                        <option value="All">All Brands</option>
+                        <option value="TITAN">Titan</option>
+                        <option value="FOSSIL">Fossil</option>
+                        <option value="FASTRACK">Fastrack</option>
+                        <option value="NOISE">Noise</option>
+                        <option value="POLICE">Police</option>
+                        <option value="ANNE KLEIN">Anne Klein</option>
+                        <option value="KENNETH COLE">Kenneth Cole</option>
+                        <option value="TOMMY HILFIGER">Tommy Hilfiger</option>
+                        <option value="XYLYS">Xylys</option>
+                        <option value="NEBULA">Nebula</option>
+                        <option value="EDGE">Edge</option>
+                        <option value="RAGA">Raga</option>
+                        <option value="SONATA">Sonata</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="priceFilter">Price Range:</label>
+                    <select id="priceFilter">
+                        <option value="All">All Prices</option>
+                        <option value="0-5000">Under ₹5,000</option>
+                        <option value="5000-10000">₹5,000 - ₹10,000</option>
+                        <option value="10000-20000">₹10,000 - ₹20,000</option>
+                        <option value="20000-50000">₹20,000 - ₹50,000</option>
+                        <option value="50000-1000000">Above ₹50,000</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products" id="productList"></div>
+        </div>
+    </main>
+
+    <script>
+        // Load all products from different categories
+        const allProducts = [
+            // Men's watches
+            ...JSON.parse(localStorage.getItem('menProducts') || '[]'),
+            // Women's watches
+            ...JSON.parse(localStorage.getItem('womenProducts') || '[]'),
+            // Smart watches
+            ...JSON.parse(localStorage.getItem('smartProducts') || '[]'),
+            // Premium watches
+            ...JSON.parse(localStorage.getItem('premiumProducts') || '[]'),
+            // International watches
+            ...JSON.parse(localStorage.getItem('internationalProducts') || '[]')
+        ];
+
+        const container = document.getElementById("productList");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const brandFilter = document.getElementById("brandFilter");
+        const priceFilter = document.getElementById("priceFilter");
+        const searchInput = document.getElementById("searchInput");
+        const searchSummary = document.getElementById("searchSummary");
+
+        function filterAndDisplay() {
+            let category = categoryFilter.value;
+            let brand = brandFilter.value;
+            let price = priceFilter.value;
+            let search = searchInput.value.toLowerCase();
+
+            let filtered = allProducts.filter(p => {
+                const matchCategory = category === "All" || p.category === category;
+                const matchBrand = brand === "All" || p.brand === brand;
+                
+                let matchPrice = true;
+                if (price !== "All") {
+                    const priceLimits = price.split("-");
+                    const minPrice = parseInt(priceLimits[0]);
+                    const maxPrice = parseInt(priceLimits[1]);
+                    const itemPrice = parseInt(p.price.replace(/[₹,]/g, ""));
+                    matchPrice = itemPrice >= minPrice && itemPrice <= maxPrice;
+                }
+                
+                const matchSearch = p.name.toLowerCase().includes(search) || 
+                                 p.brand.toLowerCase().includes(search) ||
+                                 p.category.toLowerCase().includes(search);
+
+                return matchCategory && matchBrand && matchPrice && matchSearch;
+            });
+
+            displayProducts(filtered);
+            updateSearchSummary(filtered.length, search);
+        }
+
+        function displayProducts(products) {
+            container.innerHTML = "";
+            
+            if (products.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>No products found matching your criteria</h3>
+                        <button class="back-button" onclick="history.back()">← Go Back</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            products.forEach(item => {
+                let div = document.createElement("div");
+                div.classList.add("product");
+                div.onclick = () => {
+                    localStorage.setItem("selectedProduct", JSON.stringify(item));
+                    window.location.href = "product.html";
+                };
+                div.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <p><strong>${item.name}</strong></p>
+                    <p class="price">${item.price}</p>
+                    <p class="product-details">Brand: ${item.brand}</p>
+                    <p class="product-details">Category: ${item.category}</p>
+                    <p class="product-details">Rating: ⭐ ${item.rating}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateSearchSummary(count, searchTerm) {
+            if (searchTerm) {
+                searchSummary.textContent = `Found ${count} products matching "${searchTerm}"`;
+            } else {
+                searchSummary.textContent = `Showing ${count} products`;
+            }
+        }
+
+        // Event listeners
+        categoryFilter.addEventListener("change", filterAndDisplay);
+        brandFilter.addEventListener("change", filterAndDisplay);
+        priceFilter.addEventListener("change", filterAndDisplay);
+        searchInput.addEventListener("input", filterAndDisplay);
+
+        // Initialize with search term from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchTerm = localStorage.getItem('searchTerm');
+            if (searchTerm) {
+                searchInput.value = searchTerm;
+                filterAndDisplay();
+                localStorage.removeItem('searchTerm'); // Clear the search term after using it
+            } else {
+                filterAndDisplay();
+            }
+        });
+    </script>
+</body>
+</html> 

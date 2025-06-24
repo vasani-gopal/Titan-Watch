@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Titan</title>
+  <link rel="icon" type="image/png" href="https://zerocreativity0.wordpress.com/wp-content/uploads/2016/02/titan-logo-sudarshan-dheer.jpg?w=736" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="script.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="cart-wishlist.js" defer></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
+
+  <!-- Header -->
+  <header>
+    <div class="top-header">
+      <div class="left">
+        <img class="logo"
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwb6d5816b/images/homepage/titan-logo.svg"
+          alt="Titan Logo" />
+      </div>
+
+      <div class="search-container">
+        <div class="search-box">
+          <input type="text" placeholder="Search for watches..." height="20px"/>
+          <button type="submit" class="search-button">
+            <i class="fa-solid fa-search"></i>
+            Search
+          </button>
+          <div class="search-results-dropdown"></div>
+        </div>
+      </div>
+
+      <!-- Toggle icon separate -->
+      <div class="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+      <div class="right">
+        <button class="account-btn">
+          <i class="fa-regular fa-user"></i>
+          <span>Account</span>
+        </button>
+
+        <a href="wishlish.html" class="wishlist-link">
+          <i class="fa-regular fa-heart"></i>
+          <span>Wishlist</span>
+        </a>
+
+        <a href="cart.html" class="cart-link">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span>Cart</span>
+        </a>
+      </div>
+    </div>
+
+
+    <nav class="nav-links">
+      <div class="nav-item">
+        <a href="men/men.html">MEN</a>
+        <div class="mega-menu">
+          <div class="mega-column">
+            <h4>Men's Watches</h4>
+            <a href="#">Formal</a>
+            <a href="#">Casual</a>
+            <a href="#">Smart</a>
+            <a href="#">Workwear</a>
+            <a href="#">Party Wear</a>
+            <a href="#">Ethnic</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="women/women.html">WOMEN</a>
+        <div class="mega-menu">
+          <div class="mega-column">
+            <h4>Women's Watches</h4>
+            <a href="#">Fossil</a>
+            <a href="#">Stylish</a>
+            <a href="#">Raga</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="smart-watch/smart.html">SMART WATCHES</a>
+        <div class="mega-menu">
+          <div class="mega-column">
+            <h4>Smart Watches</h4>
+            <a href="#">Fitness</a>
+            <a href="#">Hybrid</a>
+            <a href="#">Touchscreen</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="premium watch/primium.html">PREMIUM WATCHES</a>
+        <div class="mega-menu">
+          <div class="mega-column">
+            <h4>Premium Collection</h4>
+            <a href="#">Titan Edge</a>
+            <a href="#">Titan Grandmaster</a>
+            <a href="#">Titan Nebula</a>
+            <a href="#">Titan Regalia</a>
+            <a href="#">Titan Automatic</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="internation brand/international.html">INTERNATIONAL BRANDS</a>
+        <div class="mega-menu">
+          <div class="mega-column">
+            <h4>Top Brands</h4>
+            <a href="#">Fastrack</a>
+            <a href="#">Tommy Hilfiger</a>
+            <a href="#">Fossil</a>
+            <a href="#">Casio</a>
+            <a href="#">Lacoste</a>
+            <a href="#">Police</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Login Popup -->
+    <div class="login-popup" id="loginPopup">
+      <div class="login-container" id="loginContainer">
+        <span class="close-btn" id="closeLogin">&times;</span>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+          <h2 class="login-title">Login to Your Account</h2>
+          <form class="login-form-box">
+            <input type="text" placeholder="Email or Mobile Number" required />
+            <input type="password" placeholder="Password" required />
+            <button type="submit">Login</button>
+            <p class="register-text">
+              Don't have an account? <a href="#" id="showRegister">Register</a>
+            </p>
+          </form>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" style="display: none;">
+          <h2 class="login-title">Create an Account</h2>
+          <form class="login-form-box">
+            <input type="text" placeholder="Full Name" required />
+            <input type="email" placeholder="Email Address" required />
+            <input type="text" placeholder="Mobile Number" required />
+            <input type="password" placeholder="Create Password" required />
+            <input type="password" placeholder="Confirm Password" required />
+            <button type="submit">Register</button>
+            <p class="register-text">
+              Already have an account? <a href="#" id="showLogin">Login</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Profile Popup -->
+    <div class="user-profile-popup" id="userProfilePopup">
+      <div class="profile-container">
+        <span class="close-btn" id="closeProfile">&times;</span>
+        <div class="profile-header">
+          <i class="fa-regular fa-user profile-icon"></i>
+          <h2>User Profile</h2>
+        </div>
+        <div class="profile-details">
+          <div class="profile-item">
+            <label>Full Name:</label>
+            <span id="profileName">-</span>
+          </div>
+          <div class="profile-item">
+            <label>Email:</label>
+            <span id="profileEmail">-</span>
+          </div>
+          <div class="profile-item">
+            <label>Mobile:</label>
+            <span id="profileMobile">-</span>
+          </div>
+        </div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </main>
+
+  <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
+
+
+  <!-- Slider Section -->
+  <section class="slider">
+    <div class="slides">
+
+      <img
+        src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwfeedbf65/images/homepage/All_Banners/BestSellers_Sept_D.jpg"
+        class="slide active" alt="Slide 1">
+
+      <img
+        src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwbfab0d70/images/homepage/All_Banners/Oct_NewArrivals_D.jpg"
+        class="slide" alt="Slide 2">
+
+      <img
+        src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw92358de4/images/homepage/All_Banners/SmartVday_Feb_D.jpg"
+        class="slide" alt="Slide 3">
+
+      <img
+        src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwea044f00/images/homepage/All_Banners/Nebula_AT_D.jpg"
+        class="slide" alt="Slide 4">
+
+      <img
+        src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw57d234af/images/homepage/All_Banners/Raga_Jan_D.jpg"
+        class="slide" alt="Slide 5">
+
+    </div>
+
+    <div class="navigation">
+      <button class="prev" onclick="moveSlide(-1)" aria-label="Previous">&#10094;</button>
+      <button class="next" onclick="moveSlide(1)" aria-label="Next">&#10095;</button>
+    </div>
+  </section>
+
+  <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
+
+
+  <!-- Banner -->
+  <section class="limited-edition-banner">
+    <div class="banner-content">
+      <img
+        src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwad9d0f6d/images/homepage/All_Banners/Titan_40yoj_d.jpg"
+        alt="Titan 40 Years of Joy" />
+    </div>
+  </section>
+
+
+
+  <!-- Trending Cards -->
+  <section class="trends-section">
+    <div class="trend-card">
+      <a href="men/men.html"><img
+          src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw203d37b3/images/TrendingFinal_Men_D.jpg"
+          alt="Classic Trends"></a>
+    </div>
+
+    <div class="trend-card">
+      <a href="women/women.html"><img
+          src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw53d4c6ee/images/TrendingFinal_Women_D.jpg"
+          alt="Chic Trends"></a>
+    </div>
+  </section>
+
+
+  <!-- Short Banner -->
+  <section class="category-section">
+    <h2>THE BEST WAY TO BUY THE PRODUCTS YOU LOVE</h2>
+
+    <div class="carousel-wrapper">
+      <button class="nav left" onclick="scrollCarousel('left')">&#10094;</button>
+
+      <div class="carousel-track" id="carouselTrack">
+
+        <div class="item">
+          <a href="">
+            <img src="https://wallpapers.com/images/featured/sunset-couple-pictures-7a3878unghgg8zpf.jpg"
+              alt="Couple"></a>
+          <a href="#">Couple</a>
+        </div>
+
+        <div class="item">
+          <a href="men/men.html">
+            <img src="https://i.pinimg.com/originals/74/09/af/7409af350323c6f8b16c94e3366ef698.jpg" alt="Men"></a>
+          <a href="men/men.html">Men</a>
+        </div>
+
+        <div class="item">
+          <a href="women/women.html">
+            <img src="https://i.pinimg.com/originals/f1/3c/b4/f13cb413fd1cee546f77c09c14ce248f.jpg" alt="Women"></a>
+          <a href="women/women.html">Women</a>
+        </div>
+
+        <div class="item">
+          <a href=""><img src="https://wallup.net/wp-content/uploads/2015/07/Little-children-on-the-field.jpg"
+              alt="Kids">
+            <a href="#">Kids</a>
+        </div>
+
+        <div class="item">
+          <a href="">
+            <img
+              src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw3e10e985/images/Titan/Catalog/1713BM02_1.jpg?sw=600&sh=600"
+              alt="Clocks"></a>
+          <a href="#">Clocks</a>
+        </div>
+
+        <div class="item">
+          <a href="premium watch/primium.html">
+            <img
+              src="https://images.augustman.com/wp-content/uploads/sites/3/2022/10/11191124/pexels-antony-trivet-9978785.jpg"
+              alt="Luxury"></a>
+          <a href="premium watch/primium.html">Primium</a>
+        </div>
+
+        <div class="item">
+          <a href="smart-watch/smart.html">
+            <img src="https://s.alicdn.com/@sc04/kf/H1eb29b6a841342a788bab879be213ca03.jpg_720x720q50.jpg"
+              alt="Smart"></a>
+          <a href="smart-watch/smart.html">Smart</a>
+        </div>
+
+        <div class="item">
+          <a href="">
+            <img
+              src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwc8887c27/images/sale_.jpg"
+              alt="Sale"></a>
+          <a href="#">Sale</a>
+        </div>
+
+        <div class="item">
+          <a href="">
+            <img
+              src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw34276b43/images/New_Arrivals_thumb.jpg"
+              alt="New Arrival"></a>
+          <a href="internation brand/international.html">New Arrival</a>
+        </div>
+
+      </div>
+
+      <button class="nav right" onclick="scrollCarousel('right')">&#10095;</button>
+    </div>
+  </section>
+
+
+  <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
+
+
+  <section class="mainbrand">
+    <h1>Shop by Brands</h1>
+    <div class="brand-container">
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw1d1bc29b/images/homepage/Brands/Brands_Titan_D.jpg"
+          alt="Titan">
+      </div>
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwd98e5fb4/images/homepage/Brands/Brands_FT_D.jpg"
+          alt="Fastrack">
+      </div>
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw887b4a5b/images/homepage/Brands/Brands_Sonata_D.jpg"
+          alt="Sonata">
+      </div>
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwca36aefa/images/homepage/Brands/Brands_TH_D.jpg"
+          alt="Tommy Hilfiger">
+      </div>
+    </div>
+
+
+    <div class="brand-container">
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw01a3a949/images/homepage/Brands/Brands_KC_D.jpg"
+          alt="Kenneth Cole">
+      </div>
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwccde60e4/images/homepage/Brands/Brands_Police_D.jpg"
+          alt="Police">
+      </div>
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw5ef351e8/images/homepage/Brands/Brands_Edge_D.jpg"
+          alt="Edge">
+      </div>
+
+      <div class="brand">
+        <img
+          src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw16cd4c63/images/homepage/Brands/Brands_Nebula_D.jpg"
+          alt="Nebula">
+      </div>
+    </div>
+
+
+    <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
+
+
+    <section class="collection-section">
+      <h1>COLLECTION</h1>
+
+      <div class="collection-container">
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw4c3b0683/images/WorkwearWD.jpg"
+            alt="Workwear Watch">
+        </div>
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwc1b2e9d4/images/WorkwearNTD.jpg"
+            alt="Raga Watch">
+        </div>
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw49fff0b0/images/RagaWD.jpg"
+            alt="Raga Watch">
+        </div>
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw7d7f4af8/images/RagaNTD.jpg"
+            alt="Raga Watch">
+        </div>
+
+      </div>
+
+
+      <div class="collection-container">
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwc0a72efd/images/GrandmasterNATD.jpg"
+            alt="Workwear Watch">
+        </div>
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwac86eb87/images/GrandWD.jpg"
+            alt="Raga Watch">
+        </div>
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw9c332f65/images/MaritimeTD.jpg"
+            alt="Raga Watch">
+        </div>
+
+        <div class="collection-item">
+          <img
+            src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dw32de8d0d/images/MaritimeWD.jpg"
+            alt="Raga Watch">
+        </div>
+
+      </div>
+    </section>
+
+    <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
+
+
+    <!-- Footer -->
+    <!-- Your existing footer code with Back to Top button added -->
+    <div class="footer">
+      <div class="footer-column">
+        <h4>COLLECTIONS</h4>
+        <a href="#">Titan Automatics</a>
+        <a href="#">Police Batman</a>
+        <a href="#">Stellar</a>
+        <a href="#">Raga Power Pearls</a>
+        <a href="#">Nebula Jewels</a>
+        <a href="#">Grandmaster</a>
+        <a href="#">Maritime</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>CUSTOMER SERVICE</h4>
+        <a href="#">Payment Options</a>
+        <a href="#">Track Order</a>
+        <a href="#">Encircle Program</a>
+        <a href="#">Find Titan World Stores</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>CONTACT US</h4>
+        <p>1800-266-0123</p>
+        <p>customercare@titan.co.in</p>
+        <a href="#">Help & Contact</a>
+        <a href="#">FAQs</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>ABOUT TITAN</h4>
+        <a href="#">Brand Protection</a>
+        <a href="#">Corporate</a>
+        <a href="#">Careers</a>
+        <a href="#">Blog</a>
+        <h4>Download Titan World App</h4>
+        <div class="app-download">
+          <a href="https://play.google.com/store/games?hl=en">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+              alt="Google Play">
+          </a>
+        </div>
+
+        <h4>Follow Us On</h4>
+        <div class="social-icons" style="display: flex; gap: 10px;">
+          <a href="https://www.facebook.com/">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+
+          <a href="https://www.instagram.com/#">
+            <i class="fab fa-instagram"></i>
+          </a>
+
+          <a href="https://www.youtube.com/">
+            <i class="fab fa-youtube"></i>
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="#top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+
+    <div class="footer-bottom">
+      <div>&copy; 2025 Titan Company Limited. All Rights Reserved.</div>
+      <div>
+        <a href="#" style="color:white; margin-right:10px;">Terms & Conditions</a>
+        <a href="#" style="color:white; margin-right:10px;">Privacy Policy</a>
+        <a href="#" style="color:white; margin-right:10px;">Wearable Privacy Policy</a>
+        <a href="#" style="color:white;">Warranty Policy</a>
+      </div>
+      <div class="payment-icons">
+        <img src="https://cdn-icons-png.flaticon.com/512/349/349221.png" alt="Visa">
+        <img src="https://cdn-icons-png.flaticon.com/512/349/349230.png" alt="MasterCard">
+        <img src="https://cdn-icons-png.flaticon.com/512/196/196565.png" alt="PayPal">
+        <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="American Express">
+        <img src="https://cdn-icons-png.flaticon.com/512/196/196561.png" alt="Discover">
+      </div>
+    </div>
+
+
+
+    </main>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Login and Profile Management
+  const accountBtn = document.querySelector('.account-btn');
+  const loginPopup = document.getElementById('loginPopup');
+  const userProfilePopup = document.getElementById('userProfilePopup');
+  const closeLogin = document.getElementById('closeLogin');
+  const closeProfile = document.getElementById('closeProfile');
+  const showRegister = document.getElementById('showRegister');
+  const showLogin = document.getElementById('showLogin');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Check if user is logged in
+  const checkLoginStatus = () => {
+    const currentUser = window.auth.getCurrentUser();
+    if (currentUser) {
+      window.auth.updateLoggedInState(currentUser);
+    } else {
+      window.auth.updateLoggedOutState();
+    }
+  };
+
+  // Update UI for logged in state
+  const updateLoggedInState = (user) => {
+    window.auth.updateLoggedInState(user);
+  };
+
+  // Update UI for logged out state
+  const updateLoggedOutState = () => {
+    window.auth.updateLoggedOutState();
+  };
+
+  // Show login popup
+  const showLoginPopup = () => {
+    if (loginPopup) {
+      loginPopup.style.display = 'flex';
+      if (loginForm && registerForm) {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+      }
+    }
+  };
+
+  // Show user profile
+  const showUserProfile = () => {
+    const currentUser = window.auth.getCurrentUser();
+    if (currentUser && userProfilePopup) {
+      document.getElementById('profileName').textContent = currentUser.fullName;
+      document.getElementById('profileEmail').textContent = currentUser.email;
+      document.getElementById('profileMobile').textContent = currentUser.mobile;
+      userProfilePopup.style.display = 'flex';
+    }
+  };
+
+  // Handle login form submission
+  if (loginForm) {
+    loginForm.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = this.querySelector('input[type="text"]').value;
+      const password = this.querySelector('input[type="password"]').value;
+
+      // Basic validation
+      if (!email || !password) {
+        showMessage('Please fill in all fields');
+        return;
+      }
+
+      // Simulate successful login with user data
+      const user = {
+        fullName: "John Doe", // In real app, this would come from backend
+        email: email,
+        mobile: "1234567890" // In real app, this would come from backend
+      };
+
+      window.auth.updateLoggedInState(user);
+      showMessage('Login successful!', false);
+      setTimeout(() => {
+        if (loginPopup) loginPopup.style.display = 'none';
+        this.reset();
+      }, 1500);
+    });
+  }
+
+  // Handle register form submission
+  if (registerForm) {
+    registerForm.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fullName = this.querySelector('input[placeholder="Full Name"]').value;
+      const email = this.querySelector('input[type="email"]').value;
+      const mobile = this.querySelector('input[placeholder="Mobile Number"]').value;
+      const password = this.querySelector('input[placeholder="Create Password"]').value;
+      const confirmPassword = this.querySelector('input[placeholder="Confirm Password"]').value;
+
+      // Validation
+      if (!fullName || !email || !mobile || !password || !confirmPassword) {
+        showMessage('Please fill in all fields');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('Passwords do not match');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('Password must be at least 6 characters long');
+        return;
+      }
+
+      // Create user object
+      const user = {
+        fullName: fullName,
+        email: email,
+        mobile: mobile
+      };
+
+      window.auth.updateLoggedInState(user);
+      showMessage('Registration successful!', false);
+
+      setTimeout(() => {
+        if (loginPopup) loginPopup.style.display = 'none';
+        if (registerForm && loginForm) {
+          registerForm.style.display = 'none';
+          loginForm.style.display = 'block';
+        }
+        this.reset();
+      }, 1500);
+    });
+  }
+
+  // Handle logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      window.auth.handleLogout();
+      if (userProfilePopup) {
+        userProfilePopup.style.display = 'none';
+      }
+    });
+  }
+
+  // Close buttons
+  if (closeLogin) {
+    closeLogin.addEventListener('click', () => {
+      if (loginPopup) loginPopup.style.display = 'none';
+    });
+  }
+
+  if (closeProfile) {
+    closeProfile.addEventListener('click', () => {
+      if (userProfilePopup) userProfilePopup.style.display = 'none';
+    });
+  }
+
+  // Toggle between login and register forms
+  if (showRegister) {
+    showRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (loginForm && registerForm) {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+      }
+    });
+  }
+
+  if (showLogin) {
+    showLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (registerForm && loginForm) {
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+      }
+    });
+  }
+
+  // Show message function
+  const showMessage = (message, isError = true) => {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isError ? 'error' : 'success'}`;
+    messageDiv.textContent = message;
+    document.body.appendChild(messageDiv);
+
+    setTimeout(() => {
+      messageDiv.remove();
+    }, 3000);
+  };
+
+  // Check login status on page load
+  checkLoginStatus();
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bill Generation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+      font-size: 20px;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .btn {
+      padding: 14px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #3498db;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #d4d4d4;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th,
+    table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    .product-row {
+      position: relative;
+    }
+
+    .remove-product {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ff5252;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-product {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .summary-section {
+      margin-top: 30px;
+      border-top: 2px solid #f0f0f0;
+      padding-top: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+
+    .summary-value {
+      font-weight: 600;
+    }
+
+    .grand-total {
+      font-size: 18px;
+      color: #e91e63;
+      font-weight: bold;
+      padding-top: 10px;
+      margin-top: 10px;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    #bill-preview {
+      display: none;
+      background: #fff;
+      padding: 30px;
+      max-width: 700px;
+      margin: 30px auto;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .bill-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 20px;
+    }
+
+    .bill-shop-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .bill-address {
+      margin-bottom: 5px;
+    }
+
+    .bill-contact {
+      margin-bottom: 15px;
+    }
+
+    .bill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .bill-customer {
+      margin-bottom: 20px;
+    }
+
+    .bill-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .bill-table th,
+    .bill-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .bill-table th {
+      background-color: #f8f9fa;
+    }
+
+    .bill-summary {
+      width: 50%;
+      margin-left: auto;
+    }
+
+    .bill-summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+
+    .bill-total {
+      font-weight: bold;
+      font-size: 18px;
+      padding-top: 8px;
+      margin-top: 8px;
+      border-top: 2px solid #eee;
+    }
+
+    .bill-footer {
+      text-align: center;
+      margin-top: 30px;
+      font-style: italic;
+    }
+
+    .bill-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      #bill-preview,
+      #bill-preview * {
+        visibility: visible;
+      }
+
+      #bill-preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+      }
+
+      .bill-actions {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .bill-info {
+        flex-direction: column;
+      }
+
+      .bill-summary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>Bill Generation</h1>
+    <p>Create a professional invoice for your customer</p>
+  </div>
+
+  <div class="container" id="bill-form">
+    <div class="section-title">Shop Details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="shop-name">Shop Name</label>
+        <input type="text" id="shop-name" class="form-control" placeholder="Your Shop Name" value="Your Shop Name">
+      </div>
+      <div class="form-group">
+        <label for="gstin">GSTIN</label>
+        <input type="text" id="gstin" class="form-control" placeholder="GSTIN Number" value="24ABCDE1234F1Z5">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="shop-address">Shop Address</label>
+      <input type="text" id="shop-address" class="form-control" placeholder="Complete Address"
+        value="Ring Road, Rajkot - 360001">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="shop-phone">Phone Number</label>
+        <input type="text" id="shop-phone" class="form-control" placeholder="Phone Number" value="9876543210">
+      </div>
+      <div class="form-group">
+        <label for="invoice-no">Invoice Number</label>
+        <input type="text" id="invoice-no" class="form-control" placeholder="Invoice Number" value="1023">
+      </div>
+      <div class="form-group">
+        <label for="invoice-date">Invoice Date</label>
+        <input type="date" id="invoice-date" class="form-control">
+      </div>
+    </div>
+
+    <div class="section-title">Customer Details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="customer-name">Customer Name</label>
+        <input type="text" id="customer-name" class="form-control" placeholder="Customer Name">
+      </div>
+      <div class="form-group">
+        <label for="customer-mobile">Mobile Number</label>
+        <input type="text" id="customer-mobile" class="form-control" placeholder="Mobile Number">
+      </div>
+    </div>
+
+    <div class="section-title">Products</div>
+    <table id="products-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price (₹)</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="products-tbody">
+        <tr class="product-row">
+          <td><input type="text" class="form-control product-name" placeholder="Product Name"></td>
+          <td><input type="number" class="form-control product-qty" placeholder="Qty" min="1" value="1"></td>
+          <td><input type="number" class="form-control product-price" placeholder="Price" min="0" step="0.01"></td>
+          <td class="product-total">₹0.00</td>
+          <td><button class="remove-product">×</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="add-product" id="add-product-btn">+ Add Product</button>
+
+    <div class="section-title">Payment Summary</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="discount-percent">Discount (%)</label>
+        <input type="number" id="discount-percent" class="form-control" placeholder="Discount Percentage" min="0"
+          max="100" value="10">
+      </div>
+      <div class="form-group">
+        <label for="tax-percent">Tax CGST (%)</label>
+        <input type="number" id="tax-cgst" class="form-control" placeholder="CGST Percentage" min="0" max="100"
+          value="9">
+      </div>
+      <div class="form-group">
+        <label for="tax-percent">Tax SGST (%)</label>
+        <input type="number" id="tax-sgst" class="form-control" placeholder="SGST Percentage" min="0" max="100"
+          value="9">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="payment-mode">Payment Mode</label>
+      <select id="payment-mode" class="form-control">
+        <option value="Cash">Cash</option>
+        <option value="UPI" selected>UPI</option>
+        <option value="Card">Credit/Debit Card</option>
+        <option value="Netbanking">Net Banking</option>
+      </select>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-row">
+        <span>Subtotal:</span>
+        <span class="summary-value" id="summary-subtotal">₹0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Discount:</span>
+        <span class="summary-value" id="summary-discount">-₹0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>CGST:</span>
+        <span class="summary-value" id="summary-cgst">₹0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>SGST:</span>
+        <span class="summary-value" id="summary-sgst">₹0.00</span>
+      </div>
+      <div class="summary-row grand-total">
+        <span>Grand Total:</span>
+        <span class="summary-value" id="summary-total">₹0.00</span>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-secondary" id="back-button">Back</button>
+      <button class="btn btn-primary" id="generate-bill-btn">Generate Bill</button>
+    </div>
+  </div>
+
+  <!-- Bill Preview Section -->
+  <div id="bill-preview">
+    <div class="bill-header">
+      <div class="bill-shop-name" id="preview-shop-name">Your Shop Name</div>
+      <div class="bill-address" id="preview-address">Shop Address</div>
+      <div class="bill-contact">Phone: <span id="preview-phone">Phone</span> | GSTIN: <span
+          id="preview-gstin">GSTIN</span></div>
+    </div>
+
+    <div class="bill-info">
+      <div>
+        <div><strong>Invoice No:</strong> <span id="preview-invoice-no">Invoice No</span></div>
+        <div><strong>Date:</strong> <span id="preview-date">Date</span></div>
+      </div>
+    </div>
+
+    <div class="bill-customer">
+      <div><strong>Customer:</strong> <span id="preview-customer">Customer Name</span></div>
+      <div><strong>Mobile:</strong> <span id="preview-mobile">Mobile Number</span></div>
+    </div>
+
+    <table class="bill-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="preview-products">
+        <!-- Products will be inserted here -->
+      </tbody>
+    </table>
+
+    <div class="bill-summary">
+      <div class="bill-summary-row">
+        <span>Subtotal:</span>
+        <span id="preview-subtotal">₹0.00</span>
+      </div>
+      <div class="bill-summary-row">
+        <span>Discount (<span id="preview-discount-percent">0</span>%):</span>
+        <span id="preview-discount">-₹0.00</span>
+      </div>
+      <div class="bill-summary-row">
+        <span>CGST (<span id="preview-cgst-percent">0</span>%):</span>
+        <span id="preview-cgst">₹0.00</span>
+      </div>
+      <div class="bill-summary-row">
+        <span>SGST (<span id="preview-sgst-percent">0</span>%):</span>
+        <span id="preview-sgst">₹0.00</span>
+      </div>
+      <div class="bill-summary-row bill-total">
+        <span>Grand Total:</span>
+        <span id="preview-total">₹0.00</span>
+      </div>
+      <div class="bill-summary-row">
+        <span>Payment Mode:</span>
+        <span id="preview-payment-mode">Payment Mode</span>
+      </div>
+    </div>
+
+    <div class="bill-footer">
+      <p>**Thank you for shopping with us!**</p>
+    </div>
+
+    <div class="bill-actions">
+      <button class="btn btn-secondary" id="edit-bill-btn">Edit</button>
+      <button class="btn btn-primary" id="print-bill-btn">Print</button>
+    </div>
+  </div>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set default date to today
+      const today = new Date();
+      const formattedDate = today.toISOString().substr(0, 10);
+      document.getElementById('invoice-date').value = formattedDate;
+
+      // Get DOM elements
+      const productsTable = document.getElementById('products-tbody');
+      const addProductBtn = document.getElementById('add-product-btn');
+      const generateBillBtn = document.getElementById('generate-bill-btn');
+      const backButton = document.getElementById('back-button');
+      const editBillBtn = document.getElementById('edit-bill-btn');
+      const printBillBtn = document.getElementById('print-bill-btn');
+      const billForm = document.getElementById('bill-form');
+      const billPreview = document.getElementById('bill-preview');
+
+      // Get cart data from localStorage if available
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // If cart has items, pre-populate products
+      if (cart.length > 0) {
+        // Clear the default empty row
+        productsTable.innerHTML = '';
+
+        cart.forEach(item => {
+          addProductRow(item.name, item.quantity, item.price.replace(/[₹,]/g, ''));
+        });
+      }
+
+      // Calculate totals on input changes
+      document.addEventListener('input', function (e) {
+        if (e.target.classList.contains('product-price') ||
+          e.target.classList.contains('product-qty') ||
+          e.target.id === 'discount-percent' ||
+          e.target.id === 'tax-cgst' ||
+          e.target.id === 'tax-sgst') {
+          calculateTotals();
+        }
+      });
+
+      // Add product row event
+      addProductBtn.addEventListener('click', () => {
+        addProductRow();
+      });
+
+      // Remove product row event
+      productsTable.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-product')) {
+          const productRow = e.target.closest('.product-row');
+          if (productsTable.querySelectorAll('.product-row').length > 1) {
+            productRow.remove();
+            calculateTotals();
+          } else {
+            alert('At least one product is required!');
+          }
+        }
+      });
+
+      // Back button action
+      backButton.addEventListener('click', () => {
+        window.location.href = 'payment.html';
+      });
+
+      // Generate bill action
+      generateBillBtn.addEventListener('click', () => {
+        if (validateForm()) {
+          generateBillPreview();
+          billForm.style.display = 'none';
+          billPreview.style.display = 'block';
+        }
+      });
+
+      // Edit bill action
+      editBillBtn.addEventListener('click', () => {
+        billPreview.style.display = 'none';
+        billForm.style.display = 'block';
+      });
+
+      // Print bill action
+      printBillBtn.addEventListener('click', () => {
+        window.print();
+      });
+
+      // Function to add a product row
+      function addProductRow(name = '', qty = 1, price = '') {
+        const row = document.createElement('tr');
+        row.className = 'product-row';
+        row.innerHTML = `
+      <td><input type="text" class="form-control product-name" placeholder="Product Name" value="${name}"></td>
+      <td><input type="number" class="form-control product-qty" placeholder="Qty" min="1" value="${qty}"></td>
+      <td><input type="number" class="form-control product-price" placeholder="Price" min="0" step="0.01" value="${price}"></td>
+      <td class="product-total">₹0.00</td>
+      <td><button class="remove-product">×</button></td>
+    `;
+        productsTable.appendChild(row);
+        calculateTotals();
+      }
+
+      // Function to calculate totals
+      function calculateTotals() {
+        const productRows = document.querySelectorAll('.product-row');
+        let subtotal = 0;
+
+        productRows.forEach(row => {
+          const qty = parseFloat(row.querySelector('.product-qty').value) || 0;
+          const price = parseFloat(row.querySelector('.product-price').value) || 0;
+          const total = qty * price;
+
+          row.querySelector('.product-total').textContent = `₹${total.toFixed(2)}`;
+          subtotal += total;
+        });
+
+        // Calculate discounts and taxes
+        const discountPercent = parseFloat(document.getElementById('discount-percent').value) || 0;
+        const cgstPercent = parseFloat(document.getElementById('tax-cgst').value) || 0;
+        const sgstPercent = parseFloat(document.getElementById('tax-sgst').value) || 0;
+
+        const discount = (subtotal * discountPercent) / 100;
+        const afterDiscount = subtotal - discount;
+        const cgst = (afterDiscount * cgstPercent) / 100;
+        const sgst = (afterDiscount * sgstPercent) / 100;
+        const grandTotal = afterDiscount + cgst + sgst;
+
+        // Round all to 2 decimals
+        const subtotalRounded = +subtotal.toFixed(2);
+        const discountRounded = +discount.toFixed(2);
+        const cgstRounded = +cgst.toFixed(2);
+        const sgstRounded = +sgst.toFixed(2);
+        const grandTotalRounded = +grandTotal.toFixed(2);
+
+        // Update summary
+        document.getElementById('summary-subtotal').textContent = `₹${subtotalRounded.toFixed(2)}`;
+        document.getElementById('summary-discount').textContent = `-₹${discountRounded.toFixed(2)}`;
+        document.getElementById('summary-cgst').textContent = `₹${cgstRounded.toFixed(2)}`;
+        document.getElementById('summary-sgst').textContent = `₹${sgstRounded.toFixed(2)}`;
+        document.getElementById('summary-total').textContent = `₹${grandTotalRounded.toFixed(2)}`;
+      }
+
+      // Function to validate form
+      function validateForm() {
+        // Basic validation for shop details
+        const shopName = document.getElementById('shop-name').value.trim();
+        const shopAddress = document.getElementById('shop-address').value.trim();
+        const shopPhone = document.getElementById('shop-phone').value.trim();
+        const invoiceNo = document.getElementById('invoice-no').value.trim();
+        const invoiceDate = document.getElementById('invoice-date').value;
+
+        // Customer validation
+        const customerName = document.getElementById('customer-name').value.trim();
+        const customerMobile = document.getElementById('customer-mobile').value.trim();
+
+        // Products validation
+        const products = document.querySelectorAll('.product-row');
+        let validProducts = true;
+
+        products.forEach(product => {
+          const name = product.querySelector('.product-name').value.trim();
+          const price = product.querySelector('.product-price').value.trim();
+
+          if (!name || !price) {
+            validProducts = false;
+          }
+        });
+
+        // Display error messages
+        if (!shopName) {
+          alert('Please enter shop name');
+          return false;
+        }
+        if (!shopAddress) {
+          alert('Please enter shop address');
+          return false;
+        }
+        if (!shopPhone) {
+          alert('Please enter shop phone number');
+          return false;
+        }
+        if (!invoiceNo) {
+          alert('Please enter invoice number');
+          return false;
+        }
+        if (!invoiceDate) {
+          alert('Please select invoice date');
+          return false;
+        }
+        if (!customerName) {
+          alert('Please enter customer name');
+          return false;
+        }
+        if (!customerMobile) {
+          alert('Please enter customer mobile number');
+          return false;
+        }
+        if (!validProducts) {
+          alert('Please enter product details properly');
+          return false;
+        }
+
+        return true;
+      }
+
+      // Function to generate bill preview
+      function generateBillPreview() {
+        // Update shop details in preview
+        document.getElementById('preview-shop-name').textContent = document.getElementById('shop-name').value;
+        document.getElementById('preview-address').textContent = document.getElementById('shop-address').value;
+        document.getElementById('preview-phone').textContent = document.getElementById('shop-phone').value;
+        document.getElementById('preview-gstin').textContent = document.getElementById('gstin').value;
+        document.getElementById('preview-invoice-no').textContent = document.getElementById('invoice-no').value;
+
+        // Format date for display
+        const invoiceDate = new Date(document.getElementById('invoice-date').value);
+        const formattedDate = invoiceDate.toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+        document.getElementById('preview-date').textContent = formattedDate;
+
+        // Update customer details
+        document.getElementById('preview-customer').textContent = document.getElementById('customer-name').value;
+        document.getElementById('preview-mobile').textContent = document.getElementById('customer-mobile').value;
+
+        // Update products table
+        const previewProducts = document.getElementById('preview-products');
+        previewProducts.innerHTML = '';
+
+        const productRows = document.querySelectorAll('.product-row');
+        productRows.forEach((row, index) => {
+          const name = row.querySelector('.product-name').value;
+          const qty = parseFloat(row.querySelector('.product-qty').value) || 0;
+          const price = parseFloat(row.querySelector('.product-price').value) || 0;
+          const total = qty * price;
+
+          const previewRow = document.createElement('tr');
+          previewRow.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${name}</td>
+        <td>${qty}</td>
+        <td>₹${price.toFixed(2)}</td>
+        <td>₹${total.toFixed(2)}</td>
+      `;
+          previewProducts.appendChild(previewRow);
+        });
+
+        // Update summary in preview
+        const discountPercent = parseFloat(document.getElementById('discount-percent').value) || 0;
+        const cgstPercent = parseFloat(document.getElementById('tax-cgst').value) || 0;
+        const sgstPercent = parseFloat(document.getElementById('tax-sgst').value) || 0;
+
+        const subtotal = parseFloat(document.getElementById('summary-subtotal').textContent.replace(/[₹,]/g, '')) || 0;
+        const discount = parseFloat(document.getElementById('summary-discount').textContent.replace(/[-₹,]/g, '')) || 0;
+        const cgst = parseFloat(document.getElementById('summary-cgst').textContent.replace(/[₹,]/g, '')) || 0;
+        const sgst = parseFloat(document.getElementById('summary-sgst').textContent.replace(/[₹,]/g, '')) || 0;
+        const grandTotal = parseFloat(document.getElementById('summary-total').textContent.replace(/[₹,]/g, '')) || 0;
+
+        document.getElementById('preview-discount-percent').textContent = discountPercent.toFixed(2);
+        document.getElementById('preview-cgst-percent').textContent = cgstPercent.toFixed(2);
+        document.getElementById('preview-sgst-percent').textContent = sgstPercent.toFixed(2);
+
+        document.getElementById('preview-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+        document.getElementById('preview-discount').textContent = `-₹${discount.toFixed(2)}`;
+        document.getElementById('preview-cgst').textContent = `₹${cgst.toFixed(2)}`;
+        document.getElementById('preview-sgst').textContent = `₹${sgst.toFixed(2)}`;
+        document.getElementById('preview-total').textContent = `₹${grandTotal.toFixed(2)}`;
+        document.getElementById('preview-payment-mode').textContent = document.getElementById('payment-mode').value;
+
+        // Save cart data to localStorage for future use
+        saveCartData();
+      }
+
+      // Function to save cart data to localStorage
+      function saveCartData() {
+        const products = document.querySelectorAll('.product-row');
+        const cart = [];
+
+        products.forEach(product => {
+          const name = product.querySelector('.product-name').value.trim();
+          const quantity = product.querySelector('.product-qty').value;
+          const priceRaw = product.querySelector('.product-price').value;
+          const price = (parseFloat(priceRaw) || 0).toFixed(2);
+
+          if (name && priceRaw) {
+            cart.push({ name, quantity, price: '₹' + price });
+          }
+        });
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+
+      // Calculate totals on page load
+      calculateTotals();
+    });
+  </script>
+
+</body>
+
+</html>

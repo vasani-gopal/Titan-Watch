@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Primium Watches</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Loader Styles */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        h1 {
+            position: relative;
+            display: inline-block;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background-color: black;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        h1:hover::after {
+            transform: scaleX(1);
+        }
+
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filters label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filters select,
+        .filters input {
+            padding: 10px;
+            margin: 5px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+            outline: none;
+        }
+
+        .filters select:focus,
+        .filters input:focus {
+            border-color: #4caf50;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .product p {
+            margin: 8px 0;
+        }
+
+        .price {
+            color: #e91e63;
+            font-weight: bold;
+        }
+
+        .product-details {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .back-button {
+            color: white;
+            background-color: black;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .products {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .products {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .filters {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader-container" id="loaderContainer">
+        <div class="loader"></div>
+        <div class="loader-text">Loading...</div>
+    </div>
+
+    <div class="container">
+        <h1>Primium Watches</h1>
+
+        <div class="filters">
+            <div>
+                <label for="brandFilter">Brand:</label>
+                <select id="brandFilter">
+                    <option value="All">All</option>
+                    <option value="TITAN">Titan</option>
+                    <option value="XYLYS">XYLYS</option>
+                    <option value="NEBULA">Nebula</option>
+                    <option value="EDGE">Edge</option>
+                </select>
+            </div>
+
+            <select id="priceFilter">
+                <option value="All">All</option>
+                <option value="1000-25000">₹1,000 - ₹25,000</option>
+                <option value="25001-50000">₹25,001 - ₹50,000</option>
+                <option value="50001-75000">₹50,001 - ₹75,000</option>
+                <option value="75001-100000">₹75,001 - ₹1,00,000</option>
+                <option value="100001-1000000">₹1,00,001 - ₹10,00,000</option>
+            </select>
+
+            <div>
+                <label for="search">Search:</label>
+                <input type="text" id="search" placeholder="Search for a product" />
+            </div>
+        </div>
+
+        <div class="products" id="productList"></div>
+    </div>
+
+    <script>
+        // Show loader for exactly 1 second
+        document.addEventListener('DOMContentLoaded', function() {
+            const loaderContainer = document.getElementById('loaderContainer');
+            
+            setTimeout(function() {
+                loaderContainer.style.display = 'none';
+            }, 1000);
+        });
+
+        const products = [
+            {
+                id: 55,
+                name: "Titan Edge Slim Stainless Steel",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dwb3422dcf/images/Titan/Catalog/1843QM02_1.jpg?sw=600&sh=600",
+                price: "₹20,795",
+                category: "Men Watch",
+                brand: "EDGE",
+                rating: "4.3"
+            },
+            {
+                id: 56,
+                name: "Xylys Shimmer Swiss Analog Steel",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw4e1fb6e5/images/Xylys/Catalog/9766WD02M_5.jpg?sw=600&sh=600",
+                price: "₹31,500",
+                category: "Women Watch",
+                brand: "XYLYS",
+                rating: "5.0"
+            },
+            {
+                id: 57,
+                name: "Xylys Quartz Chronograph Rose Gold",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw7571ed8a/images/Xylys/Catalog/45025WM01E_1.jpg?sw=600&sh=600",
+                price: "₹ 52,500",
+                category: "Women Watch",
+                brand: "XYLYS",
+                rating: "4.2"
+            },
+            {
+                id: 58,
+                name: "Xylys Swiss Chronograph Stainless Steel",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw74bde228/images/Xylys/Catalog/9295DM05_1.jpg?sw=600&sh=600",
+                price: "₹83,500",
+                category: "Men Watch",
+                brand: "XYLYS",
+                rating: "4.6"
+            },
+            {
+                id: 596,
+                name: "Titan Edge Ceramic Quartz in Atlantic Blue",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw2c9756c2/images/Titan/Catalog/2653QC03_1.jpg?sw=600&sh=600",
+                price: "₹24,995",
+                category: "Women Watch",
+                brand: "TITAN",
+                rating: "4.7"
+            },
+            {
+                id: 606,
+                name: "Xylys Velocita Swiss Chronograph",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw4383bdc2/images/Xylys/Catalog/40057NM01E_1.jpg?sw=600&sh=600",
+                price: "₹36,500",
+                category: "Men Watch",
+                brand: "XYLYS",
+                rating: "5.0"
+            },
+            {
+                id: 61,
+                name: "Titan Ceramic Fusion",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dwe6fbd79a/images/Titan/Catalog/90175KD02_2.jpg?sw=600&sh=600",
+                price: "₹29,145",
+                category: "Men Watch",
+                brand: "TITAN",
+                rating: "4.4"
+            },
+            {
+                id: 62,
+                name: "Xylys Quartz Chronograph Rose Gold",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw7571ed8a/images/Xylys/Catalog/45025WM01E_1.jpg?sw=600&sh=600",
+                price: "₹42,500",
+                category: "Women Watch",
+                brand: "XYLYS",
+                rating: "4.7"
+            },
+            {
+                id: 63,
+                name: "Titan Nebula Lustre 18k Gold",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dwc8f09b8a/images/Titan/Catalog/5064DL01_2.jpg?sw=600&sh=600",
+                price: "₹136,000",
+                category: "Men Watch",
+                brand: "NEBULA",
+                rating: "4.2"
+            },
+            {
+                id: 64,
+                name: "Titan Edge Squircle Quartz Analog White",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw615124d2/images/Titan/Catalog/2757QC01_1.jpg?sw=600&sh=600",
+                price: "₹37,995",
+                category: "Women Watch",
+                brand: "EDGE",
+                rating: "5.0"
+            },
+            {
+                id: 65,
+                name: "Titan Nebula Lustre 18k Gold ",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw8aa8552a/images/Titan/Catalog/5572DL01_1.jpg?sw=600&sh=600",
+                price: "₹101,200",
+                category: "Women Watch",
+                brand: "NEBULA",
+                rating: "5.0"
+            },
+            {
+                id: 66,
+                name: "Titan Edge Fusion Quartz Analog Black",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dwfc3c6b8e/images/Titan/Catalog/1878KD01_1.jpg?sw=600&sh=600",
+                price: "₹26,995",
+                category: "Women Watch",
+                brand: "FOSSIL",
+                rating: "4.8"
+            },
+            {
+                id: 67,
+                name: "Titan Nebula Vintage 18k Gold",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dwe5285c84/images/Titan/Catalog/1921DM02_1.jpg?sw=600&sh=600",
+                price: "₹4,35,200",
+                category: "Women Watch",
+                brand: "NEBULA",
+                rating: "4.5"
+            },
+            {
+                id: 68,
+                name: "Titan Edge Squircle Quartz in Arctic White",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw5b1413e5/images/Titan/Catalog/1841QC03_1.jpg?sw=600&sh=600",
+                price: "₹43,995",
+                category: "Unisex Watch",
+                brand: "EDGE",
+                rating: "4.2"
+            },
+            {
+                id: 69,
+                name: "Titan Nebula Vintage 18k Gold",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw63114090/images/Titan/Catalog/5033DM02_1.jpg?sw=600&sh=600",
+                price: "₹600,000",
+                category: "Men Watch",
+                brand: "NEBULA",
+                rating: "5.0"
+            },
+            {
+                id: 70,
+                name: "Titan Edge Ceramic Quartz",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw82bf5608/images/Titan/Catalog/1696QC04_1.jpg?sw=600&sh=600",
+                price: "₹33,995",
+                category: "Men Watch",
+                brand: "EDGE",
+                rating: "4.9"
+            },
+            {
+                id: 71,
+                name: "Xylys Quartz Analog Black",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dwf1ad553d/images/Xylys/Catalog/40065KL01E_2.jpg?sw=600&sh=600",
+                price: "₹39,900",
+                category: "Men Watch",
+                brand: "XYLYS",
+                rating: "4.4"
+            },
+            {
+                id: 72,
+                name: "Titan Vintage 18k Gold",
+                image: "https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw168a5b4a/images/Titan/Catalog/5069DM01_1.jpg?sw=600&sh=600",
+                price: "₹429,250",
+                category: "Women Watch",
+                brand: "NEBULA",
+                rating: "5.0"
+            }
+        ];
+
+        // Store products in localStorage
+        localStorage.setItem('premiumProducts', JSON.stringify(products));
+
+        const container = document.getElementById("productList");
+        const brandFilter = document.getElementById("brandFilter");
+        const priceFilter = document.getElementById("priceFilter");
+        const searchInput = document.getElementById("search");
+
+        function filterAndDisplay() {
+            let brand = brandFilter.value;
+            let price = priceFilter.value;
+            let search = searchInput.value.toLowerCase();
+
+            let filtered = products.filter(p => {
+                const matchBrand = brand === "All" || p.brand === brand;
+                
+                let matchPrice = true;
+                if (price !== "All") {
+                    const priceLimits = price.split("-");
+                    const minPrice = parseInt(priceLimits[0]);
+                    const maxPrice = parseInt(priceLimits[1]);
+                    const itemPrice = parseInt(p.price.replace(/[₹,]/g, ""));
+                    matchPrice = itemPrice >= minPrice && itemPrice <= maxPrice;
+                }
+                
+                const matchSearch = p.name.toLowerCase().includes(search);
+
+                return matchBrand && matchPrice && matchSearch;
+            });
+
+            displayProduct(filtered);
+        }
+
+        function displayProduct(productList) {
+            container.innerHTML = "";
+            
+            if (productList.length === 0) {
+                let noResults = document.createElement("div");
+                noResults.style.gridColumn = "1 / -1";
+                noResults.style.textAlign = "center";
+                noResults.style.padding = "20px";
+                noResults.innerHTML = "<h3>No products match your filters</h3>";
+                container.appendChild(noResults);
+                return;
+            }
+            
+            productList.forEach(item => {
+                let div = document.createElement("div");
+                div.classList.add("product");
+                div.onclick = () => {
+                    localStorage.setItem("selectedProduct", JSON.stringify(item));
+                    window.location.href = "product4.html";
+                };
+                div.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <p><strong>${item.name}</strong></p>
+                    <p class="price">${item.price}</p>
+                    <p class="product-details">Brand: ${item.brand}</p>
+                    <p class="product-details">Rating: ⭐ ${item.rating}</p>
+                `;
+                container.appendChild(div);
+            });
+            
+            // Add "Go Back" button at the end
+            let backDiv = document.createElement("div");
+            backDiv.style.gridColumn = "1 / -1";
+            backDiv.style.textAlign = "center";
+            backDiv.style.marginTop = "40px";
+
+            let backBtn = document.createElement("button");
+            backBtn.textContent = "← Go Back";
+            backBtn.className = "back-button";
+            backBtn.onclick = () => history.back();
+
+            backDiv.appendChild(backBtn);
+            container.appendChild(backDiv);
+        }
+
+        brandFilter.addEventListener("change", filterAndDisplay);
+        priceFilter.addEventListener("change", filterAndDisplay);
+        searchInput.addEventListener("input", filterAndDisplay);
+
+        // Initialize display
+        displayProduct(products);
+
+        // Check for search term in localStorage
+        const searchTerm = localStorage.getItem('searchTerm');
+        if (searchTerm) {
+            searchInput.value = searchTerm;
+            filterAndDisplay();
+            // Clear the search term from localStorage
+            localStorage.removeItem('searchTerm');
+        }
+    </script>
+</body>
+
+</html>
