@@ -5,12 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Watches</title>
+    <link rel="stylesheet" href="../style.css">
     <style>
         * {
             box-sizing: border-box;
         }
 
-        body {
+        .main_cl {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -20,6 +21,8 @@
             align-items: center;
             min-height: 100vh;
             text-align: center;
+            margin-top: 20px;
+
         }
 
         .container {
@@ -53,8 +56,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .loader-text {
@@ -195,6 +203,7 @@
             .products {
                 grid-template-columns: repeat(2, 1fr);
             }
+
             .filters {
                 flex-direction: column;
                 align-items: center;
@@ -210,54 +219,60 @@
 </head>
 
 <body>
+
+    <div id="nav-placeholder"></div>
+
     <!-- Loader -->
-    <div id="loaderContainer" class="loader-container">
-        <div class="loader"></div>
-        <div class="loader-text">Loading...</div>
-    </div>
-
-    <div class="container">
-        <h1>Smart Watches</h1>
-
-        <div class="filters">
-            <div>
-                <label for="brandFilter">Brand:</label>
-                <select id="brandFilter">
-                    <option value="All">All</option>
-                    <option value="TITAN">Titan</option>
-                    <option value="FOSSIL">Fossil</option>
-                    <option value="FASTRACK">Fastrack</option>
-                    <option value="NOISE">Noise</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="priceFilter">Price:</label>
-                <select id="priceFilter">
-                    <option value="All">All</option>
-                    <option value="500-1000">₹500 - ₹1,000</option>
-                    <option value="1000-3000">₹1,000 - ₹3,000</option>
-                    <option value="3001-6000">₹3,001 - ₹6,000</option>
-                    <option value="6001-10000">₹6,001 - ₹10,000</option>
-                    <option value="10001-20000">₹10,001 - ₹20,000</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="search">Search:</label>
-                <input type="text" id="search" placeholder="Search for a product" />
-            </div>
+    <div class="main_cl">
+        <div id="loaderContainer" class="loader-container">
+            <div class="loader"></div>
+            <div class="loader-text">Loading...</div>
         </div>
 
-        <div class="products" id="productList"></div>
+        <div class="container">
+
+            <div class="filters">
+                <div>
+                    <label for="brandFilter">Brand:</label>
+                    <select id="brandFilter">
+                        <option value="All">All</option>
+                        <option value="TITAN">Titan</option>
+                        <option value="FOSSIL">Fossil</option>
+                        <option value="FASTRACK">Fastrack</option>
+                        <option value="NOISE">Noise</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="priceFilter">Price:</label>
+                    <select id="priceFilter">
+                        <option value="All">All</option>
+                        <option value="500-1000">₹500 - ₹1,000</option>
+                        <option value="1000-3000">₹1,000 - ₹3,000</option>
+                        <option value="3001-6000">₹3,001 - ₹6,000</option>
+                        <option value="6001-10000">₹6,001 - ₹10,000</option>
+                        <option value="10001-20000">₹10,001 - ₹20,000</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="search">Search:</label>
+                    <input type="text" id="search" placeholder="Search for a product" />
+                </div>
+            </div>
+
+            <div class="products" id="productList"></div>
+        </div>
     </div>
+
+    <div id="footer-placeholder"></div>
 
     <script>
         // Show loader for exactly 1 second
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const loaderContainer = document.getElementById('loaderContainer');
-            
-            setTimeout(function() {
+
+            setTimeout(function () {
                 loaderContainer.style.display = 'none';
             }, 1000);
         });
@@ -343,7 +358,7 @@
                 category: "Men Watch",
                 brand: "FASTRACK",
                 rating: "4.0"
-            }, 
+            },
             {
                 id: 46,
                 name: "Titan Maestro Premium",
@@ -442,7 +457,7 @@
 
             let filtered = products.filter(p => {
                 const matchBrand = brand === "All" || p.brand === brand;
-                
+
                 let matchPrice = true;
                 if (price !== "All") {
                     const priceLimits = price.split("-");
@@ -451,7 +466,7 @@
                     const itemPrice = parseInt(p.price.replace(/[₹,]/g, ""));
                     matchPrice = itemPrice >= minPrice && itemPrice <= maxPrice;
                 }
-                
+
                 const matchSearch = p.name.toLowerCase().includes(search);
 
                 return matchBrand && matchPrice && matchSearch;
@@ -462,7 +477,7 @@
 
         function displayProduct(productList) {
             container.innerHTML = "";
-            
+
             if (productList.length === 0) {
                 let noResults = document.createElement("div");
                 noResults.style.gridColumn = "1 / -1";
@@ -472,7 +487,7 @@
                 container.appendChild(noResults);
                 return;
             }
-            
+
             productList.forEach(item => {
                 let div = document.createElement("div");
                 div.classList.add("product");
@@ -489,7 +504,7 @@
                 `;
                 container.appendChild(div);
             });
-            
+
             // Add "Go Back" button at the end
             let backDiv = document.createElement("div");
             backDiv.style.gridColumn = "1 / -1";
@@ -521,6 +536,7 @@
             localStorage.removeItem('searchTerm');
         }
     </script>
+    <script src="../script.js"></script>
 </body>
 
 </html>

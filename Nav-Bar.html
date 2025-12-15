@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer" />
+      <link rel="icon" type="image/png" href="https://zerocreativity0.wordpress.com/wp-content/uploads/2016/02/titan-logo-sudarshan-dheer.jpg?w=736" />
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-header">
+            <div class="left">
+                <img class="logo"
+                    src="https://www.titan.co.in/on/demandware.static/-/Library-Sites-TitanSharedLibrary/default/dwb6d5816b/images/homepage/titan-logo.svg"
+                    alt="Titan Logo" />
+            </div>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Search for watches..." height="20px" />
+                    <button type="submit" class="search-button">
+                        <i class="fa-solid fa-search"></i>
+                        Search
+                    </button>
+                    <div class="search-results-dropdown"></div>
+                </div>
+            </div>
+
+            <!-- Toggle icon separate -->
+            <div class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="right">
+                <button class="account-btn">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Account</span>
+                </button>
+
+                <a href="/wishlish.html" class="wishlist-link">
+                    <i class="fa-regular fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+
+                <a href="/cart.html" class="cart-link">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Cart</span>
+                </a>
+            </div>
+        </div>
+
+
+        <nav class="nav-links">
+            <div class="nav-item" data-section="home">
+                <a href="/index.html">HOME</a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/men/men.html" data-section="men">MEN</a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Men's Watches</h4>
+                        <a href="#">Formal</a>
+                        <a href="#">Casual</a>
+                        <a href="#">Smart</a>
+                        <a href="#">Workwear</a>
+                        <a href="#">Party Wear</a>
+                        <a href="#">Ethnic</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/women/women.html" data-section="women">WOMEN</a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Women's Watches</h4>
+                        <a href="#">Fossil</a>
+                        <a href="#">Stylish</a>
+                        <a href="#">Raga</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/smart-watch/smart.html" data-section="smart">SMART WATCHES</a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Smart Watches</h4>
+                        <a href="#">Fitness</a>
+                        <a href="#">Hybrid</a>
+                        <a href="#">Touchscreen</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/premium watch/primium.html" data-section="premium">PREMIUM WATCHES</a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Premium Collection</h4>
+                        <a href="#">Titan Edge</a>
+                        <a href="#">Titan Grandmaster</a>
+                        <a href="#">Titan Nebula</a>
+                        <a href="#">Titan Regalia</a>
+                        <a href="#">Titan Automatic</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/internation brand/international.html" data-section="international">INTERNATIONAL BRANDS</a>
+                <div class="mega-menu">
+                    <div class="mega-column">
+                        <h4>Top Brands</h4>
+                        <a href="#">Fastrack</a>
+                        <a href="#">Tommy Hilfiger</a>
+                        <a href="#">Fossil</a>
+                        <a href="#">Casio</a>
+                        <a href="#">Lacoste</a>
+                        <a href="#">Police</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- Login Popup -->
+        <div class="login-popup" id="loginPopup">
+            <div class="login-container" id="loginContainer">
+                <span class="close-btn" id="closeLogin">&times;</span>
+
+                <!-- Login Form -->
+                <div id="loginForm">
+                    <h2 class="login-title">Login to Your Account</h2>
+                    <form class="login-form-box">
+                        <input type="text" placeholder="Email or Mobile Number" required />
+                        <input type="password" placeholder="Password" required />
+                        <button type="submit">Login</button>
+                        <p class="register-text">
+                            Don't have an account? <a href="#" id="showRegister">Register</a>
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" style="display: none;">
+                    <h2 class="login-title">Create an Account</h2>
+                    <form class="login-form-box">
+                        <input type="text" placeholder="Full Name" required />
+                        <input type="email" placeholder="Email Address" required />
+                        <input type="text" placeholder="Mobile Number" required />
+                        <input type="password" placeholder="Create Password" required />
+                        <input type="password" placeholder="Confirm Password" required />
+                        <button type="submit">Register</button>
+                        <p class="register-text">
+                            Already have an account? <a href="#" id="showLogin">Login</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Popup -->
+        <div class="user-profile-popup" id="userProfilePopup">
+            <div class="profile-container">
+                <span class="close-btn" id="closeProfile">&times;</span>
+                <div class="profile-header">
+                    <i class="fa-regular fa-user profile-icon"></i>
+                    <h2>User Profile</h2>
+                </div>
+                <div class="profile-details">
+                    <div class="profile-item">
+                        <label>Full Name:</label>
+                        <span id="profileName">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <label>Email:</label>
+                        <span id="profileEmail">-</span>
+                    </div>
+                    <div class="profile-item">
+                        <label>Mobile:</label>
+                        <span id="profileMobile">-</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
