@@ -515,6 +515,18 @@ header {
   display: none;
   font-size: 24px;
   cursor: pointer;
+  z-index: 1001;
+  position: relative;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.menu-toggle:hover {
+  color: #c00;
+}
+
+.menu-toggle.active {
+  color: #c00;
 }
 
 
@@ -536,7 +548,7 @@ header {
 
 @media (max-width: 768px) {
   main {
-    padding-top: 100px;
+    padding-top: 0;
   }
 
   body {
@@ -602,6 +614,8 @@ header {
     font-size: 20px;
     cursor: pointer;
     padding: 5px;
+    z-index: 1001;
+    position: relative;
   }
 
   .nav-links {
@@ -720,9 +734,10 @@ header {
 /* Slider Section */
 .slider {
   position: relative;
-  margin: 30px auto;
+  margin: 0 auto;
   overflow: hidden;
   border-radius: 12px;
+  margin-top: 0;
 }
 
 .slides {
@@ -842,6 +857,7 @@ header {
 @media (max-width: 768px) {
   .slider {
     max-width: 95%;
+    margin-top: 0;
   }
 
   .navigation button {

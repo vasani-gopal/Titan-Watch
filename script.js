@@ -270,18 +270,17 @@ fetch("../Nav-Bar.html")
               localStorage.setItem('selectedProduct', JSON.stringify(product));
               
               // Determine the correct product detail page based on category
-              let productPage = 'product.html'; // default page
+              let productPage = '/men/product.html'; // default to men detail
               
-              if (product.category.toLowerCase().includes('men')) {
-                productPage = 'men/product.html';
-              } else if (product.category.toLowerCase().includes('women')) {
-                productPage = 'women/product2.html';
-              } else if (product.category.toLowerCase().includes('smart')) {
-                productPage = 'smart-watch/product3.html';
-              } else if (product.category.toLowerCase().includes('premium')) {
-                productPage = 'premium watch/product4.html';
-              } else if (product.category.toLowerCase().includes('international')) {
-                productPage = 'internation brand/product5.html';
+              const category = product.category.toLowerCase();
+              if (category.includes('women')) {
+                productPage = '/women/product2.html';
+              } else if (category.includes('smart')) {
+                productPage = '/smart-watch/product3.html';
+              } else if (category.includes('premium')) {
+                productPage = '/premium%20watch/product4.html';
+              } else if (category.includes('international')) {
+                productPage = '/internation%20brand/product5.html';
               }
               
               // Redirect to the appropriate product detail page
@@ -337,13 +336,8 @@ fetch("../Nav-Bar.html")
     // // // // // // // // // // // // // // // // // // // // // // // // // // // 
     
     runWhenReady(() => {
-      // Menu toggle for mobile
-      const menuToggle = document.querySelector(".menu-toggle");
-      const navLinks = document.querySelector(".nav-links");
-    
-      menuToggle?.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
+      // Menu toggle for mobile - This is a duplicate, already handled above
+      // Keeping it here for compatibility but the main handler is in the first runWhenReady block
     
       // For mobile: make nav items expandable
       const navItems = document.querySelectorAll('.nav-item');
@@ -668,13 +662,7 @@ initSlider();
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 
-// Mobile Nav Toggle
-const menuToggle = document.querySelector(".menu-toggle");
-const navLinks = document.querySelector(".nav-links");
-
-menuToggle?.addEventListener("click", () => {
-  navLinks.classList.toggle("active");
-});
+// Mobile Nav Toggle - Removed duplicate, already handled in runWhenReady above
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 

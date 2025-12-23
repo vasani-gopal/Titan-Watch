@@ -286,7 +286,21 @@
                 div.classList.add("product");
                 div.onclick = () => {
                     localStorage.setItem("selectedProduct", JSON.stringify(item));
-                    window.location.href = "product.html";
+                    
+                    // Route to correct detail page based on id ranges
+                    let productPage = '/men/product.html';
+                    const id = Number(item.id) || 0;
+                    if (id >= 19 && id <= 36) {
+                        productPage = '/women/product2.html';
+                    } else if (id >= 37 && id <= 54) {
+                        productPage = '/smart-watch/product3.html';
+                    } else if (id >= 55 && id <= 72) {
+                        productPage = '/premium%20watch/product4.html';
+                    } else if (id >= 73) {
+                        productPage = '/internation%20brand/product5.html';
+                    }
+
+                    window.location.href = productPage;
                 };
                 div.innerHTML = `
                     <img src="${item.image}" alt="${item.name}">
